@@ -40,3 +40,48 @@
 
 (defn triplicate [f] (do (f)(f)(f)))
 (triplicate (fn [] (println "Hello")))
+
+(defn opposite [f]
+          (fn [& args]
+            (not (apply f args))))
+
+(defn triplicate2 [f & args]
+  (triplicate (fn []
+                (apply f args))))
+
+(triplicate2 println "hello")
+
+(assert (= -1.0 (Math/cos Math/PI)))
+(defn sin-plus-consine [x] (+ (Math/pow (Math/sin x) 2)
+                              (Math/pow (Math/cos x) 2)))
+
+(assert (= 1.0 (sin-plus-consine 2)))
+
+;; 11) Define a function that takes an HTTP URL as a string,
+;; fetches that URL from the web, and returns the content
+;; as a string.
+
+;; Hint: Using the java.net.URL class and its openStream method.
+;; Then use the Clojure slurp function to get the content
+;; as a string.
+
+;; (defn http-get [url]
+;;   (slurp (.openStream (java.net.URL. url))))
+
+(defn http-get [url]
+  (slurp url))
+
+(assert (.contains (http-get "http://www.w3.org") "html")
+
+(defn one-less-arg [f x]
+  (fn [& args] (apply f x args)))
+
+;; ((one-less-arg + 1) 1 2 3)
+(defn two-fns [f g]
+  (fn [x]
+    (println x)
+    (f (g x))))
+
+;; (def times-two (fn [x] (* x 2)))
+;; (def times-four (fn [x] (* x 4)))
+;; ((two-fns times-two times-four) 3) ;; => 24
