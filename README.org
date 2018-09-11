@@ -1,0 +1,3 @@
+* Description
+
+Learn clojure from the docs, like you should.
